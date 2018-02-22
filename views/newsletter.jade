@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Hello #{ip}, subscribe to #{title}
+
+  // register form
+  form(method='POST' action='/newsletter/subscribe')
+    div.form-group
+      label(for='email') Email:
+      input#email.form-control(type='email', placeholder='name@email.com' name='email')
+    div.form-group
+      label(for='consent') Privacy consent:
+      input#consent.form-control(type='checkbox', name='consent' checked=false)
+    button.btn.btn-primary(type='submit') Subscribe

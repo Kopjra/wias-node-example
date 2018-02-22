@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h1= title
+  p Hey #{email} (#{ip})!
+  if mess
+      p= mess

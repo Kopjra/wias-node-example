@@ -3,20 +3,26 @@ var request = require('request');
 var jade = require('jade');
 var router = express.Router();
 
-var WEBAPP_HOSTNAME = process.env.WEBAPP_HOSTNAME;
-var WIAS_APIKEY = process.env.WIAS_APIKEY;
+var WEBAPP_ROOT_URL = process.env.WEBAPP_ROOT_URL; // Example: https://mywebapp.com
+var WIAS_APIKEY = process.env.WIAS_APIKEY;         // Place WIAS API keys here
 
 /* GET newsletter page. */
 router.get('/', function(req, res, next) {
 
-    // Creates template
+    // Creates the template
     var template = jade.compileFile('./views/newsletter.jade');
 
     // Uses the template to generate HTML
     var html = template({ title: 'Express Newsletter', error: null, success: null, ip: req.connection.remoteAddress });
 
-    // Replaces static files location
-    html = html.replace(/\/public\//gm, WEBAPP_HOSTNAME + "/public/");
+    /*
+     * Replaces static files references: from relative to absolute paths.
+     * Static files will be served by your Company Web Server:
+     * WIAS serves only the HTML web page.
+     *
+     * Remember: static files MUST be served from HTTPS in order to be shown!
+     */
+    html = html.replace(/\/public\//gm, WEBAPP_ROOT_URL + "/public/");
 
     // Requests the forward URL to WIAS
     request({
@@ -28,7 +34,7 @@ router.get('/', function(req, res, next) {
             "Accept": "application/json"
         },
         body: {
-            "oURL": WEBAPP_HOSTNAME + "/newsletter/subscribe",
+            "oURL": WEBAPP_ROOT_URL + "/newsletter/subscribe",
             "oMethod": "POST",
             "prerenderedHtml": html
         },

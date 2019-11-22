@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
 
     // Requests the forward URL to WIAS
     request({
-        url: "https://gateway.wias.kopjra.com/api/interactions",
+        url: "https://api-demo.websign.kopjra.com/v1/interactions",
         method: "post",
         headers: {
             "Authorization": WIAS_APIKEY,
@@ -36,7 +36,9 @@ router.get('/', function(req, res, next) {
         body: {
             "oURL": WEBAPP_ROOT_URL + "/newsletter/subscribe",
             "oMethod": "POST",
-            "prerenderedHtml": html
+            "prerenderedHtml": html,
+            "actAsProxy": true,
+            "variation": "full",
         },
         json: true
     }, function(error, response, body){

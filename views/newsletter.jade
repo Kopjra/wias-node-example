@@ -5,7 +5,8 @@ block content
   p Hello #{ip}, subscribe to #{title}
 
   // register form
-  form(method='POST' action='/newsletter/subscribe')
+  // The template engine MUST NOT escape the placeholder string! That's why we use != here instead of =
+  form(method='POST' action!='<%= e_url %>')
     div.form-group
       label(for='email') Email:
       input#email.form-control(type='email', placeholder='name@email.com' name='email')
